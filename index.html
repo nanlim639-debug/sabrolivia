@@ -116,6 +116,7 @@ body{font-family:'Inter',sans-serif;background:var(--obsidian);color:#E8E0F0;lin
 .ni-super::before{background:linear-gradient(135deg,#84CC16,#65A30D);}
 .ni-mapa::before{background:linear-gradient(135deg,#F59E0B,#EF4444);}
 .ni-cont::before{background:linear-gradient(135deg,#EC4899,#DB2777);}
+.ni-logout::before{background:linear-gradient(135deg,#EF4444,#DC2626);}
 .ni-icon{font-size:1.2rem;min-width:26px;text-align:center;position:relative;z-index:1;flex-shrink:0;}
 .ni-label{position:relative;z-index:1;opacity:0;transition:opacity .2s .05s;white-space:nowrap;}
 #sidebar:hover .ni-label{opacity:1;}
@@ -499,7 +500,7 @@ footer a{color:var(--gold);text-decoration:none;font-size:.73rem;}
       <div id="spPanelNuevo">
         <p class="sp-panel-sub">Regístrate gratis para reservar y explorar</p>
         <input class="sp-input" type="text"  id="spNombre"   placeholder="Nombre completo *">
-        <input class="sp-input" type="tel"   id="spTelefono" placeholder="Teléfono * (+591 7XXXXXXX)">
+        <input class="sp-input" type="tel"   id="spTelefono" placeholder="Teléfono * (ej: 71607412)">
         <input class="sp-input" type="email" id="spCorreo"   placeholder="Correo electrónico *">
         <div class="sp-2col">
           <select class="sp-select" id="spCiudad">
@@ -522,7 +523,7 @@ footer a{color:var(--gold);text-decoration:none;font-size:.73rem;}
   </div>
 </div>
 
-<!-- ══ SIDEBAR (sin pestaña Inicio) ══ -->
+<!-- ══ SIDEBAR (con opción de Salir al final) ══ -->
 <nav id="sidebar">
   <div class="sb-logo">🇧🇴 Sabrolivia</div>
   <a href="#" class="nav-item ni-rest active" onclick="showPage('restaurantes',this)"><span class="ni-icon">🍽️</span><span class="ni-label">Restaurantes</span></a>
@@ -532,6 +533,7 @@ footer a{color:var(--gold);text-decoration:none;font-size:.73rem;}
   <a href="#" class="nav-item ni-super"       onclick="showPage('supermercados',this)"><span class="ni-icon">🏬</span><span class="ni-label">Súpermercados</span></a>
   <a href="#" class="nav-item ni-mapa"        onclick="showPage('mapa',this)"><span class="ni-icon">🗺️</span><span class="ni-label">Mapa Histórico</span></a>
   <a href="#" class="nav-item ni-cont"        onclick="showPage('contacto',this)"><span class="ni-icon">📬</span><span class="ni-label">Contacto</span></a>
+  <a href="#" class="nav-item ni-logout" onclick="cerrarSesion()"><span class="ni-icon">🚪</span><span class="ni-label">Salir</span></a>
 </nav>
 
 <!-- ══ TOP BAR ══ -->
@@ -804,6 +806,18 @@ footer a{color:var(--gold);text-decoration:none;font-size:.73rem;}
 // CONFIG
 // ══════════════════════════════════════════════
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyz9eWTYqeIvV4d8KkiINNh4x5D2wPBYWVFAsVg5VrOIdnMEu7h_P4K-VGIYdJe0XkaQQ/exec";
+
+// ══════════════════════════════════════════════
+// DATOS DEL ADMIN (CAMBIA ESTO POR TUS DATOS)
+// ══════════════════════════════════════════════
+const ADMIN_WHATSAPP = "59171607412"; // Tu número con código de país, sin "+"
+const ADMIN_CORREO   = "tucorreo@gmail.com"; // Tu correo electrónico
+
+// 🌟 Mensaje de agradecimiento (se añade al final de cada notificación)
+const MENSAJE_GRACIAS = "\n\n🌟 *¡Gracias por visitar Sabrolivia!* 🇧🇴\n" +
+  "Gracias por confiar en Sabrolivia para descubrir la riqueza gastronómica de nuestra tierra.\n" +
+  "Detrás de cada receta hay amor, tradición y el esfuerzo de nuestra gente.\n" +
+  "Que tengas un día lleno de sabor y alegría. ¡Vuelve pronto! 🌶️✨";
 
 // ══ DATOS RESTAURANTES (actualizados con links limpios) ══
 const RESTAURANTES_EXTRA = {
@@ -1349,20 +1363,27 @@ function calcResumen(){
   const info=key?RESTAURANTES_EXTRA[key]:null;
   const maps=info&&info.maps?`\n📍 Maps: ${info.maps}`:"";
   const fb=info&&info.fb?`\n📘 Facebook: ${info.fb}`:"";
-  return{texto:`🇧🇴 *Sabrolivia – Presupuesto estimado*\n\n🏪 ${rest}\n🍽️ ${d.tipo}\n👥 ${d.personas}p · ${d.platos}pl/p\n\n💰 Base: ${d.subtotal}Bs\n➕ Extras: ${d.extrasTotal}Bs\n✅ *TOTAL: ${d.total}Bs*${maps}${fb}`,total:d.total,rest};
+  // Texto base del presupuesto + mensaje de agradecimiento
+  const textoBase = `🇧🇴 *Sabrolivia – Presupuesto estimado*\n\n🏪 ${rest}\n🍽️ ${d.tipo}\n👥 ${d.personas}p · ${d.platos}pl/p\n\n💰 Base: ${d.subtotal}Bs\n➕ Extras: ${d.extrasTotal}Bs\n✅ *TOTAL: ${d.total}Bs*${maps}${fb}`;
+  return {
+    texto: textoBase + MENSAJE_GRACIAS,
+    total: d.total,
+    rest
+  };
 }
+
+// ENVIAR AL WHATSAPP DEL ADMIN (no al del usuario)
 function enviarPresupuestoWA(){
   if(!usuarioActual){toast("Regístrate primero","error");return;}
   const{texto}=calcResumen();
-  // Limpieza del teléfono: solo dígitos
-  const tel=(usuarioActual.telefono||"").replace(/\D/g,"");
-  const waUrl=tel?`https://wa.me/${tel}?text=${encodeURIComponent(texto)}`:`https://wa.me/?text=${encodeURIComponent(texto)}`;
-  window.open(waUrl,"_blank");
+  window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(texto)}`,"_blank");
 }
+
+// ENVIAR AL CORREO DEL ADMIN
 function enviarPresupuestoMail(){
   if(!usuarioActual){toast("Regístrate primero","error");return;}
   const{texto,rest}=calcResumen();
-  window.open(`mailto:${usuarioActual.correo}?subject=${encodeURIComponent("Presupuesto – "+rest)}&body=${encodeURIComponent(texto)}`,"_blank");
+  window.open(`mailto:${ADMIN_CORREO}?subject=${encodeURIComponent("Presupuesto – "+rest)}&body=${encodeURIComponent(texto)}`,"_blank");
 }
 
 // ══ RESERVA ══
@@ -1423,31 +1444,26 @@ document.getElementById("btnReserva").addEventListener("click",async()=>{
   document.getElementById("btnReserva").disabled=true;
   await fetchPOST("crearSolicitud",{tipo:"Reserva",nombre,telefono,correo,restaurante,fecha,hora,personas,extras,nota,tipoComida,montoEstimado:total+"Bs",estado:"Pendiente"});
 
-  // Mensaje WhatsApp completo
+  // Mensaje WhatsApp completo (con agradecimiento)
   const key=getRestKey(restaurante);
   const info=key?RESTAURANTES_EXTRA[key]:null;
   const maps=info&&info.maps?`\n📍 Maps: ${info.maps}`:"";
-  const msgWA=`🇧🇴 *Sabrolivia – Confirmación de Reserva*\n\n🏪 ${restaurante}\n📅 ${fecha} a las ${hora}\n🍽️ ${tipoComida}\n👥 ${personas} persona(s)\n🎁 Extras: ${extras||"Ninguno"}\n💰 Estimado: *${total} Bs*${maps}\n\n📌 Nota: ${nota}\n\n¡Te contactaremos para confirmar! 🍽️`;
+  const msgWA = `🇧🇴 *Sabrolivia – Confirmación de Reserva*\n\n🏪 ${restaurante}\n📅 ${fecha} a las ${hora}\n🍽️ ${tipoComida}\n👥 ${personas} persona(s)\n🎁 Extras: ${extras||"Ninguno"}\n💰 Estimado: *${total} Bs*${maps}\n\n📌 Nota: ${nota}\n\n¡Te contactaremos para confirmar! 🍽️` + MENSAJE_GRACIAS;
 
   document.getElementById("btnReserva").disabled=false;
   cerrar("modalReserva");
   toast(`✅ Reserva enviada a ${restaurante}`);
 
-  // WhatsApp: limpiar el teléfono del usuario (solo dígitos, sin + ni espacios)
-  const telUsuario=(usuarioActual&&usuarioActual.telefono||telefono).replace(/\D/g,"");
-  if(telUsuario){
-    setTimeout(()=>{
-      if(confirm("¿Recibir confirmación en tu WhatsApp personal?")){
-        window.open(`https://wa.me/${telUsuario}?text=${encodeURIComponent(msgWA)}`,"_blank");
-      }
-    },500);
-  }
+  // Enviar WhatsApp al ADMIN (sin confirm, directo)
+  setTimeout(() => {
+    window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(msgWA)}`, "_blank");
+  }, 400);
 
-  // Envío adicional por correo (mailto)
+  // Enviar correo al ADMIN
   setTimeout(()=>{
     const mailSubject=encodeURIComponent(`Reserva en ${restaurante} – ${fecha}`);
     const mailBody=encodeURIComponent(msgWA.replace(/\*/g,""));
-    window.open(`mailto:${correo}?subject=${mailSubject}&body=${mailBody}`,"_blank");
+    window.open(`mailto:${ADMIN_CORREO}?subject=${mailSubject}&body=${mailBody}`,"_blank");
   },1500);
 });
 
