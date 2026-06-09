@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+/* (estilos sin cambios) */
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --obsidian:#080608;--void:#0F0C10;--panel:#15101A;--panel2:#1D1525;
@@ -212,6 +213,8 @@ main{margin-left:68px;min-height:100vh;}
 .sb-fb:hover{background:#1877F2;color:#fff;}
 .sb-tt{background:rgba(255,255,255,.07);color:#aaa;}
 .sb-tt:hover{background:#000;color:#fff;}
+.sb-wa{background:rgba(37,211,102,.12);color:#25D366;}
+.sb-wa:hover{background:#25D366;color:#fff;}
 .menu-toggle{
   background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.22);color:var(--gold);
   padding:.28rem .8rem;border-radius:18px;cursor:pointer;font-size:.72rem;margin-top:.45rem;
@@ -807,95 +810,101 @@ footer a{color:var(--gold);text-decoration:none;font-size:.73rem;}
 // ══════════════════════════════════════════════
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyz9eWTYqeIvV4d8KkiINNh4x5D2wPBYWVFAsVg5VrOIdnMEu7h_P4K-VGIYdJe0XkaQQ/exec";
 
-// ══════════════════════════════════════════════
-// DATOS DEL ADMIN (CAMBIA ESTO POR TUS DATOS)
-// ══════════════════════════════════════════════
-const ADMIN_WHATSAPP = "59171607412"; // Tu número con código de país, sin "+"
-const ADMIN_CORREO   = "tucorreo@gmail.com"; // Tu correo electrónico
-
-// 🌟 Mensaje de agradecimiento (se añade al final de cada notificación)
+// 🌟 Mensaje de agradecimiento (se envía al usuario)
 const MENSAJE_GRACIAS = "\n\n🌟 *¡Gracias por visitar Sabrolivia!* 🇧🇴\n" +
   "Gracias por confiar en Sabrolivia para descubrir la riqueza gastronómica de nuestra tierra.\n" +
   "Detrás de cada receta hay amor, tradición y el esfuerzo de nuestra gente.\n" +
   "Que tengas un día lleno de sabor y alegría. ¡Vuelve pronto! 🌶️✨";
 
-// ══ DATOS RESTAURANTES (actualizados con links limpios) ══
+// ══ DATOS RESTAURANTES (con números de WhatsApp REALES) ══
 const RESTAURANTES_EXTRA = {
   "RINCON PACEÑO":{
     maps:"https://maps.app.goo.gl/nMRhRbZSuNyAuPx66",
     fb:"https://www.facebook.com/share/1B3ooPsGPF/",
     tt:"https://www.tiktok.com/@el.rincon.paceo",
+    whatsapp:"59178763081",
     alergenos:["gluten","cerdo"]
   },
   "LA CASA DEL CAMBA":{
     maps:"https://maps.app.goo.gl/aq7ih3qdPaxxdorLA",
     fb:"https://www.facebook.com/share/1FmKXTqPqb/",
     tt:"https://www.tiktok.com/@casadelcambaoficial",
+    whatsapp:"59176003877",
     alergenos:["gluten","cerdo"]
   },
   "SUCREMANTA":{
     maps:"https://maps.app.goo.gl/GjbCmfWkiiazLSWKA",
     fb:"https://www.facebook.com/share/1DxP1grKdo/",
     tt:"https://www.tiktok.com/@sucremantaestradi",
+    whatsapp:"59177839392",
     alergenos:["gluten","lactosa"]
   },
   "LA BODEGA BOLIVIANA":{
     maps:"https://maps.app.goo.gl/MbTFqf18jBxjHPpx9",
     fb:"https://www.facebook.com/share/1D2rnAD5ax/",
     tt:"https://www.tiktok.com/@bodega.boliviana",
+    whatsapp:"59178894436",
     alergenos:["gluten","cerdo","huevo"]
   },
   "EL AJIBE COMIDA TIPICA":{
     maps:"https://maps.app.goo.gl/rNvA5scV5rx7D2cU6",
     fb:"https://www.facebook.com/share/1aGftybXf1/",
     tt:"https://www.tiktok.com/@elaljibecomidatipica",
+    whatsapp:"59170288881",
     alergenos:["cerdo","gluten"]
   },
   "GUSTITOS BOLIVIANOS":{
     maps:"https://maps.app.goo.gl/qCtHhfQDdgFsS9QE6",
     fb:"https://www.facebook.com/share/1HD6dtqvEz/",
     tt:"https://www.tiktok.com/@restaurantgustitos",
+    whatsapp:"59169501915",
     alergenos:["huevo","gluten"]
   },
   "LA RUFINA BOLIVIA":{
     maps:"https://maps.app.goo.gl/dXFVxXYzu56KxHo6A",
     fb:"https://www.facebook.com/share/1LBfwWoDvF/",
     tt:"https://www.tiktok.com/@larufinabolivia",
+    whatsapp:"59168216777",
     alergenos:["gluten","cerdo"]
   },
   "RESTAURANT DOÑA REMEDIOS":{
     maps:"https://maps.app.goo.gl/6A4hKfhHtqkPoiDu5",
     fb:"https://www.facebook.com/share/14ewXP2psFc/",
     tt:"",
+    whatsapp:"59174855203",
     alergenos:["huevo","lactosa"]
   },
   "CASA DE CAMPO":{
     maps:"https://maps.app.goo.gl/r2prXjjnQsesradd7",
     fb:"https://www.facebook.com/share/19BvvY2ai1/",
     tt:"https://www.tiktok.com/@restcdc",
+    whatsapp:"59144243937",
     alergenos:["gluten","cerdo","huevo"]
   },
   "CAYENNA RESTAURANT":{
     maps:"https://maps.app.goo.gl/fEnnjhght7iYXagQ6",
     fb:"https://www.facebook.com/share/1EPgyeTTYR/",
     tt:"https://www.tiktok.com/@cayenna.bistrocafe",
+    whatsapp:"59162845067",
     alergenos:["lactosa","gluten"]
   },
   "HEREDAD DE JACOB":{
     maps:"https://maps.app.goo.gl/XqMHNXivrAaeDSZ1A",
     fb:"https://www.facebook.com/share/1AnwvM5xkf/",
     tt:"https://www.tiktok.com/@laheredaddejacobturismo",
+    whatsapp:"59178247190",
     alergenos:["gluten","huevo"]
   },
   "LA CASA DE DOÑA PASTORITA":{
     maps:"https://maps.app.goo.gl/nGB2gktLVBuTJV9X7",
     fb:"https://www.facebook.com/share/18eL2EbtA4/",
     tt:"https://www.tiktok.com/@saicepastorita",
+    whatsapp:"59170227000",
     alergenos:["cerdo","gluten"]
   }
 };
 
-// ── Helper: busca el key correcto en RESTAURANTES_EXTRA ──
+// ── Helper ──
 function getRestKey(nombre){
   const n = (nombre||"").toUpperCase();
   return Object.keys(RESTAURANTES_EXTRA).find(k => n.includes(k) || k.includes(n)) || null;
@@ -925,20 +934,18 @@ const RECETAS = [
   {nombre:"Timpu",url:"https://youtu.be/2Bum6rxuwSk",ingredientes:["cordero","papa","chuño","ají"],alergenos:[]},
   {nombre:"Mondongo Chuquisaqueño",url:"https://youtu.be/fPT-Fyqu-xc",ingredientes:["cerdo","maíz","papa"],alergenos:["cerdo"]}
 ];
-
 const PRECIOS_BASE = {desayuno:25,almuerzo:45,cena:65};
 const HORA_SUGERIDA = {desayuno:"08:00",almuerzo:"12:00",cena:"20:00"};
-
 const PLATOS_HISTORICOS = {
-  "La Paz":{nombre:"Fricasé Paceño",historia:"El Fricasé es el plato estrella de La Paz, consumido especialmente al amanecer los fines de semana. Sus orígenes datan del siglo XVIII, mezcla de técnicas españolas de estofado con ingredientes andinos como el mote y el chuño. Es tradición tomarlo después de los festejos nocturnos, por su fama de reconfortante y reparador.",ingredientes:["Cerdo","Mote de maíz","Chuño","Ají amarillo","Hierbas andinas"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Fricase.jpg/640px-Fricase.jpg",emoji:"🥣",alergenos:["cerdo","gluten"]},
-  "Santa Cruz":{nombre:"Majadito de Charque",historia:"El Majadito es el plato emblema del oriente boliviano. Nació en las misiones jesuíticas del siglo XVII cuando los guaraníes combinaron su arroz cultivado con la técnica de secar carne (charque). La palabra 'majadito' deriva del verbo 'majar' porque el charque era machacado antes de cocinarse.",ingredientes:["Charque de res","Arroz","Plátano maduro","Huevo frito","Yuca"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Majadito_boliviano.jpg/640px-Majadito_boliviano.jpg",emoji:"🍚",alergenos:["huevo"]},
-  "Cochabamba":{nombre:"Silpancho Cochabambino",historia:"El Silpancho nació en los valles de Cochabamba a mediados del siglo XX. Es considerado el plato popular por excelencia del 'granero de Bolivia'. Su nombre proviene del quechua 'silp'anchu' que significa 'aplanado', en referencia a la carne golpeada hasta quedar muy delgada.",ingredientes:["Carne de res aplanada","Papa hervida","Arroz","Huevo frito","Tomate","Locoto"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Silpancho.jpg/640px-Silpancho.jpg",emoji:"🍳",alergenos:["huevo","gluten"]},
-  "Potosí":{nombre:"Kalapurca Potosina",historia:"La Kalapurca es uno de los platos más antiguos de Bolivia, con raíces precolombinas. En Potosí se usaban piedras volcánicas calentadas al rojo vivo sumergidas en el caldo. Era el plato ceremonial de los mineros potosinos, consumido al amanecer para soportar las temperaturas a 4.000 metros.",ingredientes:["Carne de res","Maíz pelado","Chuño","Ají rojo","Piedras volcánicas"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Kalapurca.jpg/640px-Kalapurca.jpg",emoji:"🔥",alergenos:[]},
-  "Oruro":{nombre:"Sajta de Pollo Orureña",historia:"La Sajta de Pollo es el plato de Oruro especialmente durante el Carnaval, declarado Patrimonio de la Humanidad. Utiliza ají amarillo deshidratado llamado 'locotos secos', técnica que data del Imperio Inca para preservar ajíes en los almacenes del altiplano.",ingredientes:["Pollo","Ají amarillo","Papa","Chuño","Habas","Hierbas"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Sajta_de_pollo.jpg/640px-Sajta_de_pollo.jpg",emoji:"🍗",alergenos:[]},
-  "Sucre":{nombre:"Mondongo Chuquisaqueño",historia:"El Mondongo Chuquisaqueño tiene raíces en la cocina colonial de Sucre del siglo XVIII. Fue popularizado por familias criollas que combinaron técnicas españolas con ingredientes andinos. Se sirve los domingos como ritual familiar.",ingredientes:["Panza de cerdo","Maíz pelado","Ají colorado","Papa","Hierbabuena"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Mondongo.jpg/640px-Mondongo.jpg",emoji:"🥘",alergenos:["cerdo"]},
-  "Tarija":{nombre:"Saice Tarijeño",historia:"El Saice es el plato tradicional de Tarija, con influencias del norte argentino del siglo XIX. Se diferencia de otros guisos bolivianos por su cocción lenta con vino tarijeño y especias únicas del Valle Central.",ingredientes:["Carne molida","Papa","Ají rojo","Cebolla","Vino tarijeño","Comino"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Saice.jpg/640px-Saice.jpg",emoji:"🌶️",alergenos:["gluten"]},
-  "Beni":{nombre:"Masaco Beniano",historia:"El Masaco es el símbolo del Beni, nacido en las comunidades indígenas Mojeñas y Baureñas del Amazonas boliviano. Los indígenas machacaban plátano verde junto con carne de monte durante las inundaciones anuales.",ingredientes:["Plátano verde","Charque de res","Grasa de res","Sal"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Masaco.jpg/640px-Masaco.jpg",emoji:"🍌",alergenos:[]},
-  "Pando":{nombre:"Tacacho con Cecina",historia:"El Tacacho con Cecina representa a Pando, el departamento más selvático de Bolivia. Comparte historia con la gastronomía amazónica de Brasil y Perú. La cecina es una técnica de conservación de los pueblos indígenas amazónicos.",ingredientes:["Plátano verde asado","Cecina (carne ahumada)","Grasa","Ají amazónico"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Tacacho.jpg/640px-Tacacho.jpg",emoji:"🌿",alergenos:[]}
+  "La Paz":{nombre:"Fricasé Paceño",historia:"...",ingredientes:["Cerdo","Mote de maíz","Chuño","Ají amarillo","Hierbas andinas"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Fricase.jpg/640px-Fricase.jpg",emoji:"🥣",alergenos:["cerdo","gluten"]},
+  "Santa Cruz":{nombre:"Majadito de Charque",historia:"...",ingredientes:["Charque de res","Arroz","Plátano maduro","Huevo frito","Yuca"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Majadito_boliviano.jpg/640px-Majadito_boliviano.jpg",emoji:"🍚",alergenos:["huevo"]},
+  "Cochabamba":{nombre:"Silpancho Cochabambino",historia:"...",ingredientes:["Carne de res aplanada","Papa hervida","Arroz","Huevo frito","Tomate","Locoto"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Silpancho.jpg/640px-Silpancho.jpg",emoji:"🍳",alergenos:["huevo","gluten"]},
+  "Potosí":{nombre:"Kalapurca Potosina",historia:"...",ingredientes:["Carne de res","Maíz pelado","Chuño","Ají rojo","Piedras volcánicas"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Kalapurca.jpg/640px-Kalapurca.jpg",emoji:"🔥",alergenos:[]},
+  "Oruro":{nombre:"Sajta de Pollo Orureña",historia:"...",ingredientes:["Pollo","Ají amarillo","Papa","Chuño","Habas","Hierbas"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Sajta_de_pollo.jpg/640px-Sajta_de_pollo.jpg",emoji:"🍗",alergenos:[]},
+  "Sucre":{nombre:"Mondongo Chuquisaqueño",historia:"...",ingredientes:["Panza de cerdo","Maíz pelado","Ají colorado","Papa","Hierbabuena"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Mondongo.jpg/640px-Mondongo.jpg",emoji:"🥘",alergenos:["cerdo"]},
+  "Tarija":{nombre:"Saice Tarijeño",historia:"...",ingredientes:["Carne molida","Papa","Ají rojo","Cebolla","Vino tarijeño","Comino"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Saice.jpg/640px-Saice.jpg",emoji:"🌶️",alergenos:["gluten"]},
+  "Beni":{nombre:"Masaco Beniano",historia:"...",ingredientes:["Plátano verde","Charque de res","Grasa de res","Sal"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Masaco.jpg/640px-Masaco.jpg",emoji:"🍌",alergenos:[]},
+  "Pando":{nombre:"Tacacho con Cecina",historia:"...",ingredientes:["Plátano verde asado","Cecina (carne ahumada)","Grasa","Ají amazónico"],imagen:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Tacacho.jpg/640px-Tacacho.jpg",emoji:"🌿",alergenos:[]}
 };
 
 let usuarioActual = null;
@@ -1173,11 +1180,16 @@ async function cargarCatalogos(){
 function buildSocialRow(nombre){
   const key=getRestKey(nombre);
   const info=key?RESTAURANTES_EXTRA[key]:null;
-  if(!info) return "";
   let html='<div class="social-row">';
-  if(info.maps) html+=`<a class="social-btn sb-maps" href="${info.maps}" target="_blank" rel="noopener">📍 Maps</a>`;
-  if(info.fb)   html+=`<a class="social-btn sb-fb"   href="${info.fb}"   target="_blank" rel="noopener">📘 Facebook</a>`;
-  if(info.tt)   html+=`<a class="social-btn sb-tt"   href="${info.tt}"   target="_blank" rel="noopener">🎵 TikTok</a>`;
+  if(info){
+    if(info.maps) html+=`<a class="social-btn sb-maps" href="${info.maps}" target="_blank" rel="noopener">📍 Maps</a>`;
+    if(info.fb)   html+=`<a class="social-btn sb-fb"   href="${info.fb}"   target="_blank" rel="noopener">📘 Facebook</a>`;
+    if(info.tt)   html+=`<a class="social-btn sb-tt"   href="${info.tt}"   target="_blank" rel="noopener">🎵 TikTok</a>`;
+    if(info.whatsapp){
+      const waMsg = encodeURIComponent("¡Buenas! He visto su restaurante en Sabrolivia y me gustaría hacer una reserva. ¿Podrían darme información sobre disponibilidad? Gracias.");
+      html+=`<a class="social-btn sb-wa" href="https://wa.me/${info.whatsapp}?text=${waMsg}" target="_blank" rel="noopener">💬 WhatsApp</a>`;
+    }
+  }
   html+='</div>';
   return html;
 }
@@ -1243,7 +1255,6 @@ function generarFiltros(){
   }));
 }
 
-// Botón micro que redirige a cruzero.net/routes
 function microBtn(){
   return `<a class="btn-micro" href="https://cruzero.net/routes" target="_blank" rel="noopener">🚌 Cómo llegar en micro</a>`;
 }
@@ -1333,7 +1344,7 @@ function renderRecetas(){
   if(misAlergias.length>0) aplicarFiltroAlergias();
 }
 
-// ══ CALCULADORA ══
+// ══ CALCULADORA (envía al USUARIO) ══
 function actualizarCalculadora(){
   const tipo=document.getElementById("calcTipo").value;
   const personas=parseInt(document.getElementById("calcPersonas").value)||1;
@@ -1359,12 +1370,7 @@ document.addEventListener("change",e=>{if(e.target.closest("#extrasCalc"))actual
 function calcResumen(){
   const d=actualizarCalculadora();
   const rest=document.getElementById("calcRest").value||"—";
-  const key=getRestKey(rest);
-  const info=key?RESTAURANTES_EXTRA[key]:null;
-  const maps=info&&info.maps?`\n📍 Maps: ${info.maps}`:"";
-  const fb=info&&info.fb?`\n📘 Facebook: ${info.fb}`:"";
-  // Texto base del presupuesto + mensaje de agradecimiento
-  const textoBase = `🇧🇴 *Sabrolivia – Presupuesto estimado*\n\n🏪 ${rest}\n🍽️ ${d.tipo}\n👥 ${d.personas}p · ${d.platos}pl/p\n\n💰 Base: ${d.subtotal}Bs\n➕ Extras: ${d.extrasTotal}Bs\n✅ *TOTAL: ${d.total}Bs*${maps}${fb}`;
+  const textoBase = `🇧🇴 *Sabrolivia – Presupuesto estimado*\n\n🏪 ${rest}\n🍽️ ${d.tipo}\n👥 ${d.personas}p · ${d.platos}pl/p\n\n💰 Base: ${d.subtotal}Bs\n➕ Extras: ${d.extrasTotal}Bs\n✅ *TOTAL: ${d.total}Bs*`;
   return {
     texto: textoBase + MENSAJE_GRACIAS,
     total: d.total,
@@ -1372,18 +1378,20 @@ function calcResumen(){
   };
 }
 
-// ENVIAR AL WHATSAPP DEL ADMIN (no al del usuario)
+// ENVIAR AL WHATSAPP DEL USUARIO
 function enviarPresupuestoWA(){
   if(!usuarioActual){toast("Regístrate primero","error");return;}
   const{texto}=calcResumen();
-  window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(texto)}`,"_blank");
+  const tel = usuarioActual.telefono.replace(/\D/g,'');
+  if(tel) window.open(`https://wa.me/${tel}?text=${encodeURIComponent(texto)}`,"_blank");
+  else toast("No se encontró tu número de teléfono","error");
 }
 
-// ENVIAR AL CORREO DEL ADMIN
+// ENVIAR AL CORREO DEL USUARIO
 function enviarPresupuestoMail(){
   if(!usuarioActual){toast("Regístrate primero","error");return;}
   const{texto,rest}=calcResumen();
-  window.open(`mailto:${ADMIN_CORREO}?subject=${encodeURIComponent("Presupuesto – "+rest)}&body=${encodeURIComponent(texto)}`,"_blank");
+  window.open(`mailto:${usuarioActual.correo}?subject=${encodeURIComponent("Presupuesto – "+rest)}&body=${encodeURIComponent(texto)}`,"_blank");
 }
 
 // ══ RESERVA ══
@@ -1440,31 +1448,46 @@ document.getElementById("btnReserva").addEventListener("click",async()=>{
   const nota=document.getElementById("resExtra").value.trim()||"Sin nota";
   const{total}=calcReserva();
   if(!nombre||!telefono||!correo||!fecha||!hora){toast("Completa todos los campos obligatorios","error");return;}
+
   document.getElementById("resStatus").textContent="⏳ Enviando...";
   document.getElementById("btnReserva").disabled=true;
+
+  // Guardar solicitud en Sheets
   await fetchPOST("crearSolicitud",{tipo:"Reserva",nombre,telefono,correo,restaurante,fecha,hora,personas,extras,nota,tipoComida,montoEstimado:total+"Bs",estado:"Pendiente"});
 
-  // Mensaje WhatsApp completo (con agradecimiento)
-  const key=getRestKey(restaurante);
-  const info=key?RESTAURANTES_EXTRA[key]:null;
-  const maps=info&&info.maps?`\n📍 Maps: ${info.maps}`:"";
-  const msgWA = `🇧🇴 *Sabrolivia – Confirmación de Reserva*\n\n🏪 ${restaurante}\n📅 ${fecha} a las ${hora}\n🍽️ ${tipoComida}\n👥 ${personas} persona(s)\n🎁 Extras: ${extras||"Ninguno"}\n💰 Estimado: *${total} Bs*${maps}\n\n📌 Nota: ${nota}\n\n¡Te contactaremos para confirmar! 🍽️` + MENSAJE_GRACIAS;
+  // ──── Mensaje para el USUARIO (agradecimiento) ────
+  const msgUsuario = `🇧🇴 *Sabrolivia – Confirmación de Reserva*\n\n🏪 ${restaurante}\n📅 ${fecha} a las ${hora}\n🍽️ ${tipoComida}\n👥 ${personas} persona(s)\n🎁 Extras: ${extras||"Ninguno"}\n💰 Estimado: *${total} Bs*\n\n📌 Nota: ${nota}\n\n¡El restaurante revisará tu solicitud y te contactará pronto! 🍽️` + MENSAJE_GRACIAS;
+
+  // ──── Mensaje para el RESTAURANTE (solicitud directa) ────
+  const msgRestaurante = `🛎️ *Solicitud de Reserva desde Sabrolivia*\n\n👤 Cliente: ${nombre}\n📞 Teléfono: ${telefono}\n📧 Correo: ${correo}\n📅 Fecha: ${fecha} a las ${hora}\n🍽️ Tipo: ${tipoComida}\n👥 Personas: ${personas}\n🎁 Extras: ${extras||"Ninguno"}\n📌 Nota: ${nota}\n💰 Presupuesto estimado: ${total} Bs\n\n🟢 *Por favor, confirma disponibilidad directamente con el cliente.* ¡Gracias!`;
 
   document.getElementById("btnReserva").disabled=false;
   cerrar("modalReserva");
-  toast(`✅ Reserva enviada a ${restaurante}`);
+  toast(`✅ Reserva enviada`);
 
-  // Enviar WhatsApp al ADMIN (sin confirm, directo)
+  // Enviar WhatsApp al USUARIO
+  const telUsuario = telefono.replace(/\D/g,'');
+  if(telUsuario) {
+    setTimeout(() => {
+      window.open(`https://wa.me/${telUsuario}?text=${encodeURIComponent(msgUsuario)}`, "_blank");
+    }, 300);
+  }
+
+  // Enviar WhatsApp al RESTAURANTE
+  const keyRest = getRestKey(restaurante);
+  const datosRest = keyRest ? RESTAURANTES_EXTRA[keyRest] : null;
+  if(datosRest && datosRest.whatsapp) {
+    setTimeout(() => {
+      window.open(`https://wa.me/${datosRest.whatsapp}?text=${encodeURIComponent(msgRestaurante)}`, "_blank");
+    }, 600);
+  }
+
+  // Enviar correo al USUARIO
   setTimeout(() => {
-    window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(msgWA)}`, "_blank");
-  }, 400);
-
-  // Enviar correo al ADMIN
-  setTimeout(()=>{
-    const mailSubject=encodeURIComponent(`Reserva en ${restaurante} – ${fecha}`);
-    const mailBody=encodeURIComponent(msgWA.replace(/\*/g,""));
-    window.open(`mailto:${ADMIN_CORREO}?subject=${mailSubject}&body=${mailBody}`,"_blank");
-  },1500);
+    const subject = encodeURIComponent(`Reserva en ${restaurante} – ${fecha}`);
+    const body = encodeURIComponent(msgUsuario.replace(/\*/g, ''));
+    window.open(`mailto:${correo}?subject=${subject}&body=${body}`, "_blank");
+  }, 1000);
 });
 
 // ══ MIS RESERVAS ══
